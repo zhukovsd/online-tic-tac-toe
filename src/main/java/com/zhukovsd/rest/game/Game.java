@@ -14,13 +14,28 @@
  * limitations under the License.
  */
 
-package com.zhukovsd.controller;
+package com.zhukovsd.rest.game;
 
-public class ErrorMessage {
-    public final String exceptionClass, exceptionMessage;
+import com.zhukovsd.rest.game.board.Board;
 
-    public ErrorMessage(String exceptionClass, String exceptionMessage) {
-        this.exceptionClass = exceptionClass;
-        this.exceptionMessage = exceptionMessage;
+/**
+ * Created by ZhukovSD on 12.06.2017.
+ */
+public class Game {
+    public final GameMode mode;
+    public final Board board;
+
+    public int turnNumber;
+
+    public Game(GameMode mode) {
+        this.mode = mode;
+        this.board = new Board(mode);
+    }
+
+    public Game(Game game) {
+        mode = game.mode;
+        board = new Board(game.board);
+
+        turnNumber = game.turnNumber;
     }
 }

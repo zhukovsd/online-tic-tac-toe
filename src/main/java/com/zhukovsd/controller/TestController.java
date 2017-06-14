@@ -16,6 +16,7 @@
 
 package com.zhukovsd.controller;
 
+import com.zhukovsd.ErrorMessage;
 import com.zhukovsd.service.TestService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -45,7 +46,7 @@ public class TestController {
     @ExceptionHandler(Exception.class)
     public ResponseEntity onException(Exception ex) {
         return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(
-                new ErrorMessage(ex.getClass().getSimpleName(), ex.getMessage())
+                new ErrorMessage(ex.getClass(), ex.getMessage())
         );
     }
 
