@@ -14,23 +14,5 @@
  * limitations under the License.
  */
 
-import Swagger from 'swagger-client';
-
-import './jQueryGlobalImport.js';
-
-import 'bootstrap/dist/css/bootstrap.css';
-import 'bootstrap/dist/js/bootstrap.min';
-
-import './app.css';
-
-console.time('api specs resolving');
-Swagger('/v2/api-docs')
-    .then( client => {
-        console.timeEnd('api specs resolving');
-
-        // alert(JSON.stringify(client.spec));
-
-        // client.apis['test-controller'].messageUsingGET({name: 'mate'}).then((res) => {
-        //     alert(JSON.stringify(res.body));
-        // });
-});
+import $ from 'jquery';
+global.jQuery = $;
