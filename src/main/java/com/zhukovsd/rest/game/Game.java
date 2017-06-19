@@ -16,26 +16,22 @@
 
 package com.zhukovsd.rest.game;
 
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
+import com.zhukovsd.SynchronizedSerializer;
 import com.zhukovsd.rest.game.board.Board;
 
 /**
  * Created by ZhukovSD on 12.06.2017.
  */
+@JsonSerialize(using = SynchronizedSerializer.class)
 public class Game {
-    public final GameMode mode;
     public final Board board;
 
     public int turnNumber;
 
-    public Game(GameMode mode) {
-        this.mode = mode;
-        this.board = new Board(mode);
-    }
+    public int test = 0, test2 = 0;
 
-    public Game(Game game) {
-        mode = game.mode;
-        board = new Board(game.board);
-
-        turnNumber = game.turnNumber;
+    public Game() {
+        this.board = new Board();
     }
 }

@@ -16,7 +16,6 @@
 
 package com.zhukovsd.rest.game;
 
-import com.google.common.util.concurrent.Striped;
 import com.zhukovsd.rest.exceptions.NoSuchGameException;
 import com.zhukovsd.rest.game.board.MarkData;
 import com.zhukovsd.rest.game.board.Position;
@@ -24,14 +23,20 @@ import org.springframework.stereotype.Service;
 
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.atomic.AtomicInteger;
-import java.util.concurrent.locks.Lock;
 
 @Service
 public class GameService {
-    Striped<Lock> striped = Striped.lock(10000);
-
     private ConcurrentHashMap<Integer, Game> games = new ConcurrentHashMap<>();
-    private AtomicInteger id = new AtomicInteger();
+    private AtomicInteger nextId = new AtomicInteger();
+
+    public int newGame() throws InterruptedException {
+        int id = this.nextId.getAndIncrement();
+
+        Game game = new Game();
+        games.put(id, game);
+
+        return id;
+    }
 
     public Game getGame(int id) throws NoSuchGameException {
         Game game = games.get(id);
@@ -42,43 +47,22 @@ public class GameService {
         return game;
     }
 
-    public int newGame(GameMode mode) throws InterruptedException {
-        int id = this.id.getAndIncrement();
-
-        Lock lock = striped.get(id);
-        lock.lockInterruptibly();
-        try {
-            Game game = new Game(mode);
-            games.put(id, game);
-        } finally {
-            lock.unlock();
-        }
-
-        return id;
-    }
-
     public Game makeTurn(int id) throws InterruptedException, NoSuchGameException {
-        Lock lock = striped.get(id);
+        Game game = getGame(id);
 
-        lock.lockInterruptibly();
-        try {
-            Game game = getGame(id);
+        synchronized (game) {
+            game.turnNumber++;
 
-//            Game cloned = SerializationUtils.clone(game);
-            Game cloned = new Game(game);
-            cloned.turnNumber++;
-
-            games.put(id, cloned);
-
-            return cloned;
-        } finally {
-            lock.unlock();
+            game.test++;
+            game.test2++;
         }
+
+        return game;
     }
 
     public static void main(String[] args) throws InterruptedException, NoSuchGameException {
         GameService service = new GameService();
-        int id = service.newGame(GameMode.GAME_MODE_3x3);
+        int id = service.newGame();
 
         Game game = service.getGame(id);
 

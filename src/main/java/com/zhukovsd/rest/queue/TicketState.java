@@ -14,12 +14,23 @@
  * limitations under the License.
  */
 
-package com.zhukovsd.rest.game.board;
+package com.zhukovsd.rest.queue;
 
-import java.util.ArrayList;
-import java.util.List;
+/**
+ * Created by ZhukovSD on 20.06.2017.
+ */
+public enum TicketState {
+    PENDING("pending"),
+    GAME_FOUND("game_found");
 
-public class Board {
-    public final int rowCount = 3, columnCount = 3;
-    public final List<MarkData> marks = new ArrayList<>();
+    private String value;
+
+    TicketState(String value) {
+        this.value = value;
+    }
+
+    @Override
+    public String toString() {
+        return this.value + "hi";
+    }
 }

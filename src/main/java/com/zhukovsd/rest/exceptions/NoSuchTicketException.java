@@ -14,12 +14,13 @@
  * limitations under the License.
  */
 
-package com.zhukovsd.rest.game.board;
+package com.zhukovsd.rest.exceptions;
 
-import java.util.ArrayList;
-import java.util.List;
-
-public class Board {
-    public final int rowCount = 3, columnCount = 3;
-    public final List<MarkData> marks = new ArrayList<>();
+/**
+ * Created by ZhukovSD on 20.06.2017.
+ */
+public class NoSuchTicketException extends AppException {
+    public NoSuchTicketException() {
+        super("A ticket with given ID does not exist");
+    }
 }

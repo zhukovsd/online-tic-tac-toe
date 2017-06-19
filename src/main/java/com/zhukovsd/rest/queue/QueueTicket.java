@@ -14,24 +14,19 @@
  * limitations under the License.
  */
 
-package com.zhukovsd.rest.game;
+package com.zhukovsd.rest.queue;
 
 /**
- * Created by ZhukovSD on 12.06.2017.
+ * Created by ZhukovSD on 18.06.2017.
  */
-public enum GameMode {
-    GAME_MODE_3x3 (3, 3),
-    GAME_MODE_5x5 (5, 5);
+public class QueueTicket {
+    public final transient String sessionId;
 
-    public final String value;
+    public TicketState ticketState = TicketState.PENDING;
 
-    public final int rowCount;
-    public final int columnCount;
+    public final transient long timestamp = System.currentTimeMillis();
 
-    GameMode(int rowCount, int columnCount) {
-        this.rowCount = rowCount;
-        this.columnCount = columnCount;
-
-        value = this.rowCount + "x" + this.columnCount;
+    public QueueTicket(String sessionId) {
+        this.sessionId = sessionId;
     }
 }

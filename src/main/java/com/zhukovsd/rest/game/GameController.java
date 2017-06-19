@@ -19,6 +19,7 @@ package com.zhukovsd.rest.game;
 import com.zhukovsd.rest.exceptions.NoSuchGameException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.context.request.WebRequest;
 
 import javax.annotation.PostConstruct;
 
@@ -34,13 +35,11 @@ public class GameController {
 
     @PostConstruct
     private void init() throws InterruptedException {
-        service.newGame(GameMode.GAME_MODE_3x3);
+        service.newGame();
     }
 
     @GetMapping("/{id}")
     public Game getGame(@PathVariable("id") int id) throws InterruptedException, NoSuchGameException {
-//        service.newGame(GameMode.GAME_MODE_3x3);
-
         return service.getGame(id);
     }
 
